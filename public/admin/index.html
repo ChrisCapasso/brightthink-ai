@@ -407,7 +407,7 @@ async function loadContent() {
   const res = await ghFetch(`https://api.github.com/repos/${REPO}/contents/${CONTENT_PATH}`);
   const data = await res.json();
   contentSha = data.sha;
-  content = JSON.parse(atob(data.content));
+  content = JSON.parse(decodeURIComponent(escape(atob(data.content))));
   populateForm();
 }
 
