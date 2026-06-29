@@ -2,6 +2,7 @@ backend:
   name: github
   repo: ChrisCapasso/brightthink-ai
   branch: main
+  site_domain: gleaming-figolla-034f4f.netlify.app
   base_url: https://api.netlify.com
   auth_endpoint: auth
 
