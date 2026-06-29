@@ -229,10 +229,10 @@ import content from '../content/homepage.json';
     left: 0;
     right: 0;
     z-index: 100;
-    background: rgba(6,8,13,0.8);
+    background: rgba(12,16,32,0.85);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
-    border-bottom: 1px solid rgba(99,130,255,0.06);
+    border-bottom: 1px solid rgba(99,130,255,0.12);
   }
   .nav-inner {
     display: flex;
@@ -254,9 +254,9 @@ import content from '../content/homepage.json';
     gap: 32px;
     align-items: center;
     font-size: 14px;
-    color: rgba(200,210,255,0.4);
+    color: rgba(200,210,255,0.6);
   }
-  .nav-links a:hover { color: rgba(200,210,255,0.7); }
+  .nav-links a:hover { color: rgba(200,210,255,0.9); }
   .nav-cta {
     background: linear-gradient(135deg, #2E5CFF, #1A3FCC);
     color: #fff !important;
@@ -390,7 +390,7 @@ import content from '../content/homepage.json';
     transition: border-color 0.3s ease, transform 0.2s ease;
   }
   .svc-card:hover {
-    border-color: rgba(99,130,255,0.15);
+    border-color: rgba(99,130,255,0.25);
     transform: translateY(-2px);
   }
   .svc-card::before {
@@ -400,7 +400,7 @@ import content from '../content/homepage.json';
     left: 24px;
     right: 24px;
     height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(46,92,255,0.25), transparent);
+    background: linear-gradient(90deg, transparent, rgba(46,92,255,0.35), transparent);
   }
   .svc-card::after {
     content: '';
@@ -409,19 +409,19 @@ import content from '../content/homepage.json';
     left: 25%;
     width: 50%;
     height: 50px;
-    background: radial-gradient(ellipse, rgba(46,92,255,0.06), transparent);
+    background: radial-gradient(ellipse, rgba(46,92,255,0.1), transparent);
     pointer-events: none;
   }
   .svc-icon { margin-bottom: 16px; }
   .svc-card h3 {
     font-size: 16px;
     font-weight: 500;
-    color: #C8D4FF;
+    color: #DCE4FF;
     margin-bottom: 8px;
   }
   .svc-card p {
     font-size: 14px;
-    color: var(--text-body);
+    color: rgba(200,215,255,0.65);
     line-height: 1.6;
   }
 
@@ -434,10 +434,10 @@ import content from '../content/homepage.json';
   }
   .stat-card {
     text-align: center;
-    background: rgba(12,16,30,0.5);
+    background: rgba(18,24,48,0.5);
     border-radius: 14px;
     padding: 32px 16px;
-    border: 1px solid var(--border-line);
+    border: 1px solid rgba(99,130,255,0.1);
     position: relative;
     overflow: hidden;
   }
@@ -469,15 +469,15 @@ import content from '../content/homepage.json';
 
   /* DEMO BOX */
   .demo-box {
-    border: 1px solid rgba(99,130,255,0.08);
+    border: 1px solid rgba(99,130,255,0.12);
     border-radius: 16px;
     padding: 48px;
     text-align: center;
     position: relative;
     overflow: hidden;
     background:
-      radial-gradient(ellipse 400px 200px at 50% 100%, rgba(46,92,255,0.04), transparent),
-      rgba(10,13,22,0.5);
+      radial-gradient(ellipse 400px 200px at 50% 100%, rgba(46,92,255,0.06), transparent),
+      rgba(16,20,38,0.6);
   }
   .demo-grid-bg {
     position: absolute;
@@ -514,14 +514,14 @@ import content from '../content/homepage.json';
     top: 68px;
     bottom: 0;
     width: 1px;
-    background: linear-gradient(180deg, rgba(99,130,255,0.12), rgba(99,130,255,0.03));
+    background: linear-gradient(180deg, rgba(99,130,255,0.2), rgba(99,130,255,0.05));
   }
   .step-num {
     min-width: 40px;
     height: 40px;
     border-radius: 12px;
-    background: rgba(46,92,255,0.08);
-    border: 1px solid rgba(46,92,255,0.12);
+    background: rgba(46,92,255,0.12);
+    border: 1px solid rgba(46,92,255,0.2);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -542,7 +542,7 @@ import content from '../content/homepage.json';
   .step h3 {
     font-size: 16px;
     font-weight: 500;
-    color: #C8D4FF;
+    color: #DCE4FF;
     margin-bottom: 6px;
   }
   .step p {
@@ -625,8 +625,8 @@ import content from '../content/homepage.json';
   }
   .contact-form input,
   .contact-form textarea {
-    background: rgba(10,14,25,0.6);
-    border: 1px solid rgba(99,130,255,0.08);
+    background: rgba(16,22,42,0.7);
+    border: 1px solid rgba(99,130,255,0.15);
     border-radius: 10px;
     padding: 14px 18px;
     font-size: 14px;
@@ -642,13 +642,13 @@ import content from '../content/homepage.json';
   }
   .contact-form input:focus,
   .contact-form textarea:focus {
-    border-color: rgba(99,130,255,0.25);
+    border-color: rgba(99,130,255,0.35);
   }
   .contact-form textarea { resize: none; }
 
   /* FOOTER */
   .footer {
-    border-top: 1px solid rgba(99,130,255,0.05);
+    border-top: 1px solid rgba(99,130,255,0.1);
     padding: 24px 0;
   }
   .footer-inner {

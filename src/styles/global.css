@@ -3,19 +3,19 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --bg-deep: #06080D;
-  --bg-card: rgba(12,16,30,0.7);
+  --bg-deep: #0C1020;
+  --bg-card: rgba(18,24,48,0.75);
   --blue-primary: #2E5CFF;
   --blue-light: #5B8AFF;
   --blue-glow: rgba(46,92,255,0.15);
   --purple-glow: rgba(100,60,255,0.08);
-  --text-bright: #F0F2FF;
-  --text-heading: #E0E6FF;
-  --text-body: rgba(180,195,255,0.45);
-  --text-muted: rgba(180,195,255,0.25);
-  --text-label: rgba(140,170,255,0.3);
-  --border-subtle: rgba(99,130,255,0.07);
-  --border-line: rgba(99,130,255,0.06);
+  --text-bright: #F4F5FF;
+  --text-heading: #E8ECFF;
+  --text-body: rgba(200,215,255,0.7);
+  --text-muted: rgba(180,195,255,0.45);
+  --text-label: rgba(140,170,255,0.5);
+  --border-subtle: rgba(99,130,255,0.12);
+  --border-line: rgba(99,130,255,0.1);
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
@@ -65,7 +65,7 @@ img { max-width: 100%; display: block; }
   content: '';
   display: block;
   height: 1px;
-  background: linear-gradient(90deg, transparent 0%, rgba(99,130,255,0.15) 30%, rgba(99,130,255,0.15) 70%, transparent 100%);
+  background: linear-gradient(90deg, transparent 0%, rgba(99,130,255,0.25) 30%, rgba(99,130,255,0.25) 70%, transparent 100%);
 }
 .divider::after {
   content: '';
