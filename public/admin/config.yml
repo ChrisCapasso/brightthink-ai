@@ -1,6 +1,6 @@
 backend:
   name: github
-  repo: owner/brightthink-ai
+  repo: ChrisCapasso/brightthink-ai
   branch: main
 
 media_folder: "public/images"
