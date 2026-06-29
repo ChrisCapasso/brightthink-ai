@@ -1,12 +1,649 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="robots" content="noindex" />
-    <title>Brightthink AI — Admin</title>
-  </head>
-  <body>
-    <script src="https://unpkg.com/decap-cms@3.14.1/dist/decap-cms.js"></script>
-  </body>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex" />
+  <title>Brightthink AI — Admin</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #06080D;
+      color: #E0E6FF;
+      min-height: 100vh;
+    }
+    .login-screen, .admin {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 40px 24px;
+    }
+    .login-screen {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      gap: 20px;
+    }
+    .login-screen h1 {
+      font-size: 20px;
+      font-weight: 500;
+      color: #F0F2FF;
+    }
+    .login-screen input {
+      width: 300px;
+      padding: 12px 16px;
+      background: rgba(10,14,25,0.6);
+      border: 1px solid rgba(99,130,255,0.1);
+      border-radius: 8px;
+      color: #F0F2FF;
+      font-size: 14px;
+      outline: none;
+    }
+    .login-screen input:focus { border-color: rgba(99,130,255,0.3); }
+    .admin { display: none; }
+    .admin.active { display: block; }
+    .login-screen.hidden { display: none; }
+
+    .admin-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 40px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid rgba(99,130,255,0.08);
+    }
+    .admin-header h1 { font-size: 20px; font-weight: 500; }
+    .admin-nav { display: flex; gap: 8px; }
+    .admin-nav button {
+      padding: 6px 14px;
+      background: transparent;
+      border: 1px solid rgba(99,130,255,0.1);
+      border-radius: 6px;
+      color: rgba(200,210,255,0.5);
+      font-size: 13px;
+      cursor: pointer;
+    }
+    .admin-nav button.active, .admin-nav button:hover {
+      background: rgba(46,92,255,0.1);
+      border-color: rgba(99,130,255,0.2);
+      color: #5B8AFF;
+    }
+
+    .tab { display: none; }
+    .tab.active { display: block; }
+
+    .section-block {
+      margin-bottom: 32px;
+      padding: 24px;
+      background: rgba(12,16,30,0.7);
+      border: 1px solid rgba(99,130,255,0.07);
+      border-radius: 12px;
+    }
+    .section-block h2 {
+      font-size: 14px;
+      font-weight: 500;
+      color: rgba(140,170,255,0.5);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      font-size: 12px;
+      color: rgba(180,195,255,0.4);
+      margin-bottom: 6px;
+      margin-top: 16px;
+    }
+    label:first-of-type { margin-top: 0; }
+
+    input[type="text"], input[type="password"], textarea {
+      width: 100%;
+      padding: 10px 14px;
+      background: rgba(10,14,25,0.6);
+      border: 1px solid rgba(99,130,255,0.08);
+      border-radius: 8px;
+      color: #F0F2FF;
+      font-size: 14px;
+      font-family: inherit;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    input:focus, textarea:focus { border-color: rgba(99,130,255,0.25); }
+    textarea { resize: vertical; min-height: 80px; }
+
+    .list-item {
+      padding: 16px;
+      margin-bottom: 8px;
+      background: rgba(6,8,13,0.5);
+      border: 1px solid rgba(99,130,255,0.05);
+      border-radius: 8px;
+      position: relative;
+    }
+    .list-item-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+    .list-item-header span {
+      font-size: 12px;
+      color: rgba(140,170,255,0.3);
+    }
+    .remove-btn {
+      background: none;
+      border: none;
+      color: rgba(255,100,100,0.5);
+      cursor: pointer;
+      font-size: 12px;
+      padding: 4px 8px;
+    }
+    .remove-btn:hover { color: rgba(255,100,100,0.8); }
+    .add-btn {
+      display: inline-block;
+      margin-top: 12px;
+      padding: 8px 16px;
+      background: rgba(46,92,255,0.08);
+      border: 1px solid rgba(46,92,255,0.15);
+      border-radius: 8px;
+      color: #5B8AFF;
+      font-size: 13px;
+      cursor: pointer;
+    }
+    .add-btn:hover { background: rgba(46,92,255,0.15); }
+
+    .image-upload {
+      margin-top: 8px;
+      padding: 24px;
+      border: 2px dashed rgba(99,130,255,0.12);
+      border-radius: 10px;
+      text-align: center;
+      cursor: pointer;
+      transition: border-color 0.2s;
+      position: relative;
+    }
+    .image-upload:hover { border-color: rgba(99,130,255,0.25); }
+    .image-upload.has-image { padding: 8px; }
+    .image-upload img {
+      max-width: 200px;
+      max-height: 200px;
+      border-radius: 8px;
+    }
+    .image-upload p {
+      font-size: 13px;
+      color: rgba(180,195,255,0.3);
+    }
+    .image-upload input[type="file"] {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      cursor: pointer;
+    }
+
+    .save-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 16px 24px;
+      background: rgba(6,8,13,0.95);
+      backdrop-filter: blur(12px);
+      border-top: 1px solid rgba(99,130,255,0.08);
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      z-index: 100;
+    }
+    .save-btn {
+      padding: 10px 32px;
+      background: linear-gradient(135deg, #2E5CFF, #1A3FCC);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+    }
+    .save-btn:hover { opacity: 0.9; }
+    .save-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+    .status {
+      font-size: 13px;
+      color: rgba(180,195,255,0.4);
+      align-self: center;
+    }
+    .status.success { color: #4ADE80; }
+    .status.error { color: #F87171; }
+
+    .images-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 12px;
+      margin-top: 16px;
+    }
+    .img-card {
+      position: relative;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid rgba(99,130,255,0.07);
+      background: rgba(10,14,25,0.5);
+    }
+    .img-card img {
+      width: 100%;
+      height: 100px;
+      object-fit: cover;
+    }
+    .img-card .img-name {
+      padding: 6px 8px;
+      font-size: 11px;
+      color: rgba(180,195,255,0.4);
+      word-break: break-all;
+    }
+    .img-card .img-path {
+      padding: 0 8px 6px;
+      font-size: 10px;
+      color: rgba(180,195,255,0.25);
+      cursor: pointer;
+    }
+    .img-card .img-path:hover { color: #5B8AFF; }
+    .img-delete {
+      position: absolute;
+      top: 4px;
+      right: 4px;
+      background: rgba(0,0,0,0.7);
+      border: none;
+      color: rgba(255,100,100,0.7);
+      font-size: 14px;
+      width: 22px;
+      height: 22px;
+      border-radius: 4px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .pad-bottom { padding-bottom: 80px; }
+  </style>
+</head>
+<body>
+
+<div class="login-screen" id="loginScreen">
+  <h1>Brightthink Admin</h1>
+  <input type="password" id="tokenInput" placeholder="GitHub token" />
+  <button class="save-btn" onclick="doLogin()">Log in</button>
+  <p class="status" id="loginStatus"></p>
+</div>
+
+<div class="admin pad-bottom" id="adminPanel">
+  <div class="admin-header">
+    <h1>Brightthink Admin</h1>
+    <div class="admin-nav">
+      <button class="active" onclick="switchTab('content', this)">Content</button>
+      <button onclick="switchTab('images', this)">Images</button>
+    </div>
+  </div>
+
+  <!-- CONTENT TAB -->
+  <div class="tab active" id="tab-content">
+
+    <div class="section-block">
+      <h2>Hero</h2>
+      <label>Pill text</label>
+      <input type="text" data-field="hero_pill" />
+      <label>Tagline</label>
+      <input type="text" data-field="hero_tagline" />
+      <label>Tagline highlight</label>
+      <input type="text" data-field="hero_tagline_em" />
+      <label>Subtitle</label>
+      <textarea data-field="hero_sub" rows="3"></textarea>
+    </div>
+
+    <div class="section-block">
+      <h2>Services</h2>
+      <div id="servicesList"></div>
+      <button class="add-btn" onclick="addService()">+ Add service</button>
+    </div>
+
+    <div class="section-block">
+      <h2>Stats</h2>
+      <div id="statsList"></div>
+      <button class="add-btn" onclick="addStat()">+ Add stat</button>
+    </div>
+
+    <div class="section-block">
+      <h2>Process</h2>
+      <div id="stepsList"></div>
+      <button class="add-btn" onclick="addStep()">+ Add step</button>
+    </div>
+
+    <div class="section-block">
+      <h2>About</h2>
+      <label>Name</label>
+      <input type="text" data-field="about_name" />
+      <label>Title</label>
+      <input type="text" data-field="about_title" />
+      <label>Bio</label>
+      <textarea data-field="about_bio" rows="6"></textarea>
+      <label>Photo</label>
+      <div class="image-upload" id="photoUpload">
+        <p>Drop image or click to upload</p>
+        <input type="file" accept="image/*" onchange="uploadPhoto(this)" />
+      </div>
+    </div>
+
+    <div class="section-block">
+      <h2>Contact</h2>
+      <label>Heading</label>
+      <input type="text" data-field="contact_heading" />
+      <label>Subtext</label>
+      <input type="text" data-field="contact_sub" />
+    </div>
+  </div>
+
+  <!-- IMAGES TAB -->
+  <div class="tab" id="tab-images">
+    <div class="section-block">
+      <h2>Upload images</h2>
+      <div class="image-upload" id="bulkUpload">
+        <p>Drop images or click to upload</p>
+        <input type="file" accept="image/*" multiple onchange="uploadImages(this.files)" />
+      </div>
+    </div>
+    <div class="section-block">
+      <h2>Image library</h2>
+      <div class="images-grid" id="imagesGrid">
+        <p class="status">Loading...</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="save-bar">
+    <span class="status" id="saveStatus"></span>
+    <button class="save-btn" id="saveBtn" onclick="saveContent()">Save and deploy</button>
+  </div>
+</div>
+
+<script>
+const REPO = 'ChrisCapasso/brightthink-ai';
+const CONTENT_PATH = 'src/content/homepage.json';
+const IMAGES_DIR = 'public/images';
+let TOKEN = '';
+let content = {};
+let contentSha = '';
+
+function doLogin() {
+  TOKEN = document.getElementById('tokenInput').value.trim();
+  if (!TOKEN) return;
+  localStorage.setItem('bt_token', TOKEN);
+  authenticate();
+}
+
+async function authenticate() {
+  const status = document.getElementById('loginStatus');
+  try {
+    const res = await ghFetch(`https://api.github.com/repos/${REPO}`);
+    if (!res.ok) throw new Error('Invalid token or repo not found');
+    document.getElementById('loginScreen').classList.add('hidden');
+    document.getElementById('adminPanel').classList.add('active');
+    await loadContent();
+    loadImages();
+  } catch (e) {
+    status.textContent = 'Invalid token. Generate one at github.com/settings/tokens with repo scope.';
+    status.className = 'status error';
+    localStorage.removeItem('bt_token');
+  }
+}
+
+function ghFetch(url, opts = {}) {
+  return fetch(url, {
+    ...opts,
+    headers: { Authorization: `token ${TOKEN}`, Accept: 'application/vnd.github.v3+json', ...opts.headers }
+  });
+}
+
+async function loadContent() {
+  const res = await ghFetch(`https://api.github.com/repos/${REPO}/contents/${CONTENT_PATH}`);
+  const data = await res.json();
+  contentSha = data.sha;
+  content = JSON.parse(atob(data.content));
+  populateForm();
+}
+
+function populateForm() {
+  document.querySelectorAll('[data-field]').forEach(el => {
+    const val = content[el.dataset.field] || '';
+    if (el.tagName === 'TEXTAREA') el.value = val;
+    else el.value = val;
+  });
+  renderList('servicesList', content.services, renderService);
+  renderList('statsList', content.stats, renderStat);
+  renderList('stepsList', content.steps, renderStep);
+  if (content.about_photo) {
+    const upload = document.getElementById('photoUpload');
+    upload.classList.add('has-image');
+    upload.innerHTML = `<img src="${content.about_photo}" /><input type="file" accept="image/*" onchange="uploadPhoto(this)" />`;
+  }
+}
+
+function renderList(containerId, items, renderFn) {
+  const container = document.getElementById(containerId);
+  container.innerHTML = '';
+  items.forEach((item, i) => {
+    const div = document.createElement('div');
+    div.className = 'list-item';
+    div.innerHTML = renderFn(item, i, containerId);
+    container.appendChild(div);
+  });
+}
+
+function renderService(svc, i) {
+  return `<div class="list-item-header"><span>Service ${i + 1}</span><button class="remove-btn" onclick="removeItem('services',${i})">Remove</button></div>
+    <label>Title</label><input type="text" value="${esc(svc.title)}" onchange="updateList('services',${i},'title',this.value)" />
+    <label>Description</label><textarea onchange="updateList('services',${i},'description',this.value)">${esc(svc.description)}</textarea>
+    <label>Icon</label><input type="text" value="${esc(svc.icon)}" onchange="updateList('services',${i},'icon',this.value)" />`;
+}
+
+function renderStat(stat, i) {
+  return `<div class="list-item-header"><span>Stat ${i + 1}</span><button class="remove-btn" onclick="removeItem('stats',${i})">Remove</button></div>
+    <label>Number</label><input type="text" value="${esc(stat.num)}" onchange="updateList('stats',${i},'num',this.value)" />
+    <label>Label</label><input type="text" value="${esc(stat.label)}" onchange="updateList('stats',${i},'label',this.value)" />`;
+}
+
+function renderStep(step, i) {
+  return `<div class="list-item-header"><span>Step ${i + 1}</span><button class="remove-btn" onclick="removeItem('steps',${i})">Remove</button></div>
+    <label>Title</label><input type="text" value="${esc(step.title)}" onchange="updateList('steps',${i},'title',this.value)" />
+    <label>Description</label><textarea onchange="updateList('steps',${i},'description',this.value)">${esc(step.description)}</textarea>`;
+}
+
+function esc(s) { return (s || '').replace(/"/g, '&quot;').replace(/</g, '&lt;'); }
+
+function updateList(key, idx, field, value) { content[key][idx][field] = value; }
+
+function removeItem(key, idx) {
+  content[key].splice(idx, 1);
+  const map = { services: ['servicesList', renderService], stats: ['statsList', renderStat], steps: ['stepsList', renderStep] };
+  renderList(map[key][0], content[key], map[key][1]);
+}
+
+function addService() {
+  content.services.push({ title: '', description: '', icon: '' });
+  renderList('servicesList', content.services, renderService);
+}
+function addStat() {
+  content.stats.push({ num: '', label: '' });
+  renderList('statsList', content.stats, renderStat);
+}
+function addStep() {
+  content.steps.push({ title: '', description: '' });
+  renderList('stepsList', content.steps, renderStep);
+}
+
+function gatherFields() {
+  document.querySelectorAll('[data-field]').forEach(el => {
+    content[el.dataset.field] = el.value;
+  });
+}
+
+async function saveContent() {
+  const btn = document.getElementById('saveBtn');
+  const status = document.getElementById('saveStatus');
+  btn.disabled = true;
+  status.textContent = 'Saving...';
+  status.className = 'status';
+
+  gatherFields();
+
+  try {
+    const res = await ghFetch(`https://api.github.com/repos/${REPO}/contents/${CONTENT_PATH}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        message: 'Update site content via admin',
+        content: btoa(unescape(encodeURIComponent(JSON.stringify(content, null, 2) + '\n'))),
+        sha: contentSha
+      })
+    });
+    if (!res.ok) throw new Error('Save failed');
+    const data = await res.json();
+    contentSha = data.content.sha;
+    status.textContent = 'Saved! Deploying in ~2 min...';
+    status.className = 'status success';
+  } catch (e) {
+    status.textContent = 'Error saving. Try again.';
+    status.className = 'status error';
+  }
+  btn.disabled = false;
+}
+
+async function uploadPhoto(input) {
+  const file = input.files[0];
+  if (!file) return;
+  const path = `${IMAGES_DIR}/${file.name}`;
+  const b64 = await fileToBase64(file);
+
+  try {
+    let sha;
+    const existing = await ghFetch(`https://api.github.com/repos/${REPO}/contents/${path}`);
+    if (existing.ok) sha = (await existing.json()).sha;
+
+    const body = { message: `Upload ${file.name}`, content: b64 };
+    if (sha) body.sha = sha;
+
+    const res = await ghFetch(`https://api.github.com/repos/${REPO}/contents/${path}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body)
+    });
+    if (!res.ok) throw new Error('Upload failed');
+
+    content.about_photo = `/images/${file.name}`;
+    const upload = document.getElementById('photoUpload');
+    upload.classList.add('has-image');
+    upload.innerHTML = `<img src="data:${file.type};base64,${b64}" /><input type="file" accept="image/*" onchange="uploadPhoto(this)" />`;
+  } catch (e) {
+    alert('Upload failed: ' + e.message);
+  }
+}
+
+async function uploadImages(files) {
+  const status = document.getElementById('saveStatus');
+  for (const file of files) {
+    status.textContent = `Uploading ${file.name}...`;
+    const path = `${IMAGES_DIR}/${file.name}`;
+    const b64 = await fileToBase64(file);
+
+    try {
+      let sha;
+      const existing = await ghFetch(`https://api.github.com/repos/${REPO}/contents/${path}`);
+      if (existing.ok) sha = (await existing.json()).sha;
+
+      const body = { message: `Upload ${file.name}`, content: b64 };
+      if (sha) body.sha = sha;
+
+      await ghFetch(`https://api.github.com/repos/${REPO}/contents/${path}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
+      });
+    } catch (e) {
+      status.textContent = `Failed to upload ${file.name}`;
+      status.className = 'status error';
+      return;
+    }
+  }
+  status.textContent = 'Images uploaded!';
+  status.className = 'status success';
+  loadImages();
+}
+
+async function loadImages() {
+  const grid = document.getElementById('imagesGrid');
+  try {
+    const res = await ghFetch(`https://api.github.com/repos/${REPO}/contents/${IMAGES_DIR}`);
+    if (!res.ok) {
+      grid.innerHTML = '<p class="status">No images yet. Upload some above.</p>';
+      return;
+    }
+    const files = await res.json();
+    if (!Array.isArray(files) || files.length === 0) {
+      grid.innerHTML = '<p class="status">No images yet.</p>';
+      return;
+    }
+    grid.innerHTML = files
+      .filter(f => /\.(jpg|jpeg|png|gif|svg|webp)$/i.test(f.name))
+      .map(f => `
+        <div class="img-card">
+          <img src="https://raw.githubusercontent.com/${REPO}/main/${f.path}" alt="${f.name}" />
+          <div class="img-name">${f.name}</div>
+          <div class="img-path" onclick="copyPath('/images/${f.name}')" title="Click to copy path">/images/${f.name}</div>
+          <button class="img-delete" onclick="deleteImage('${f.path}','${f.sha}')" title="Delete">x</button>
+        </div>
+      `).join('');
+  } catch (e) {
+    grid.innerHTML = '<p class="status">No images folder yet. Upload an image to create it.</p>';
+  }
+}
+
+async function deleteImage(path, sha) {
+  if (!confirm('Delete this image?')) return;
+  await ghFetch(`https://api.github.com/repos/${REPO}/contents/${path}`, {
+    method: 'DELETE',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ message: `Delete ${path.split('/').pop()}`, sha })
+  });
+  loadImages();
+}
+
+function copyPath(path) {
+  navigator.clipboard.writeText(path);
+  const status = document.getElementById('saveStatus');
+  status.textContent = `Copied: ${path}`;
+  status.className = 'status success';
+  setTimeout(() => { status.textContent = ''; }, 2000);
+}
+
+function fileToBase64(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result.split(',')[1]);
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+
+function switchTab(tab, btn) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.admin-nav button').forEach(b => b.classList.remove('active'));
+  document.getElementById(`tab-${tab}`).classList.add('active');
+  btn.classList.add('active');
+}
+
+// Auto-login if token saved
+const saved = localStorage.getItem('bt_token');
+if (saved) { TOKEN = saved; authenticate(); }
+</script>
+
+</body>
 </html>
