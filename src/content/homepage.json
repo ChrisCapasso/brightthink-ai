@@ -1,0 +1,63 @@
+{
+  "hero_tagline": "Stop thinking about AI.",
+  "hero_tagline_em": "Start using it.",
+  "hero_sub": "I build AI agents and automations that give your team hours back every week. A decade of agency experience. Zero hype.",
+  "hero_pill": "AI automation consultant",
+  "services": [
+    {
+      "title": "Custom AI agents",
+      "description": "Autonomous agents that handle the tasks your team does manually every single day.",
+      "icon": "robot"
+    },
+    {
+      "title": "Workflow automation",
+      "description": "Connect your tools. Eliminate the busywork. Let your team focus on what actually matters.",
+      "icon": "workflow"
+    },
+    {
+      "title": "AI strategy",
+      "description": "I'll find the highest-ROI automation opportunities hiding in your operations.",
+      "icon": "strategy"
+    },
+    {
+      "title": "Intelligent chatbots",
+      "description": "Customer-facing agents that understand your business — not canned responses.",
+      "icon": "chat"
+    },
+    {
+      "title": "Team training",
+      "description": "Hands-on workshops so your people are confident with AI, not intimidated by it.",
+      "icon": "training"
+    },
+    {
+      "title": "Systems audit",
+      "description": "I'll map your entire stack and show you exactly what AI can take off your plate.",
+      "icon": "audit"
+    }
+  ],
+  "stats": [
+    { "num": "10+", "label": "Years in agencies" },
+    { "num": "100s", "label": "Projects shipped" },
+    { "num": "24/7", "label": "Hermes in production" }
+  ],
+  "about_name": "Chris Capasso",
+  "about_title": "Founder",
+  "about_bio": "I spent a decade building things for agencies — websites, campaigns, digital products. I saw firsthand how much time gets burned on work that should be automated.\n\nNow I build the AI that does that work. No layers of account managers. No hand-offs. Just one experienced builder who picks up the phone, understands your business, and ships working solutions.",
+  "about_photo": "",
+  "steps": [
+    {
+      "title": "Discovery",
+      "description": "We talk about what's eating your team's time. No pitch, no pressure — just questions and listening."
+    },
+    {
+      "title": "Audit and scope",
+      "description": "I map your workflow, identify the highest-impact automations, and give you a clear plan with real costs."
+    },
+    {
+      "title": "Build and deliver",
+      "description": "I build it, test it, train your team, and stick around until it's running smoothly."
+    }
+  ],
+  "contact_heading": "Let's figure out what AI can do for you",
+  "contact_sub": "Tell me about your business. I'll respond within 24 hours."
+}

@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import content from '../content/homepage.json';
 ---
 
 <Layout>
@@ -33,9 +34,9 @@ import Layout from '../layouts/Layout.astro';
     <div class="hero-grid"></div>
     <div class="hero-scanlines"></div>
     <div class="container hero-content">
-      <span class="pill"><span class="pill-dot"></span> AI automation consultant</span>
-      <h1>Stop thinking about AI.<br><em>Start using it.</em></h1>
-      <p class="hero-sub">I build AI agents and automations that give your team hours back every week. A decade of agency experience. Zero hype.</p>
+      <span class="pill"><span class="pill-dot"></span> {content.hero_pill}</span>
+      <h1>{content.hero_tagline}<br><em>{content.hero_tagline_em}</em></h1>
+      <p class="hero-sub">{content.hero_sub}</p>
       <div class="hero-ctas">
         <a href="#contact" class="btn-primary">Let's talk <span aria-hidden="true">→</span></a>
         <a href="#services" class="btn-ghost">See what I build</a>
@@ -175,10 +176,9 @@ import Layout from '../layouts/Layout.astro';
           <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#5B8AFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
         </div>
         <div class="about-text">
-          <h2 class="about-name">Chris Capasso</h2>
-          <p class="about-title">Founder</p>
-          <p>I spent a decade building things for agencies — websites, campaigns, digital products. I saw firsthand how much time gets burned on work that should be automated.</p>
-          <p>Now I build the AI that does that work. No layers of account managers. No hand-offs. Just one experienced builder who picks up the phone, understands your business, and ships working solutions.</p>
+          <h2 class="about-name">{content.about_name}</h2>
+          <p class="about-title">{content.about_title}</p>
+          {content.about_bio.split('\n\n').map((p: string) => <p>{p}</p>)}
         </div>
       </div>
     </div>
@@ -191,8 +191,8 @@ import Layout from '../layouts/Layout.astro';
     <div class="contact-glow"></div>
     <div class="container" style="text-align:center;">
       <p class="section-label">Contact</p>
-      <h2 class="section-title">Let's figure out what AI can do for you</h2>
-      <p class="section-sub">Tell me about your business. I'll respond within 24 hours.</p>
+      <h2 class="section-title">{content.contact_heading}</h2>
+      <p class="section-sub">{content.contact_sub}</p>
       <form class="contact-form" action="https://formspree.io/f/placeholder" method="POST">
         <div class="form-row">
           <input type="text" name="name" placeholder="Your name" required />

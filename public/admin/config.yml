@@ -1,0 +1,57 @@
+backend:
+  name: github
+  repo: owner/brightthink-ai
+  branch: main
+
+media_folder: "public/images"
+public_folder: "/images"
+
+collections:
+  - name: "site"
+    label: "Site content"
+    files:
+      - name: "homepage"
+        label: "Homepage"
+        file: "src/content/homepage.json"
+        fields:
+          - { label: "Hero tagline", name: "hero_tagline", widget: "string" }
+          - { label: "Hero tagline highlight", name: "hero_tagline_em", widget: "string" }
+          - { label: "Hero subtitle", name: "hero_sub", widget: "text" }
+          - { label: "Hero pill text", name: "hero_pill", widget: "string" }
+          - label: "Services"
+            name: "services"
+            widget: "list"
+            fields:
+              - { label: "Title", name: "title", widget: "string" }
+              - { label: "Description", name: "description", widget: "text" }
+              - { label: "Icon name", name: "icon", widget: "string" }
+          - label: "Stats"
+            name: "stats"
+            widget: "list"
+            fields:
+              - { label: "Number", name: "num", widget: "string" }
+              - { label: "Label", name: "label", widget: "string" }
+          - { label: "About name", name: "about_name", widget: "string" }
+          - { label: "About title", name: "about_title", widget: "string" }
+          - { label: "About bio", name: "about_bio", widget: "text" }
+          - { label: "About photo", name: "about_photo", widget: "image", required: false }
+          - label: "Process steps"
+            name: "steps"
+            widget: "list"
+            fields:
+              - { label: "Title", name: "title", widget: "string" }
+              - { label: "Description", name: "description", widget: "text" }
+          - { label: "Contact heading", name: "contact_heading", widget: "string" }
+          - { label: "Contact subtext", name: "contact_sub", widget: "string" }
+
+  - name: "blog"
+    label: "Blog posts"
+    folder: "src/content/blog"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Publish date", name: "date", widget: "datetime" }
+      - { label: "Description", name: "description", widget: "text" }
+      - { label: "Featured image", name: "image", widget: "image", required: false }
+      - { label: "Body", name: "body", widget: "markdown" }
