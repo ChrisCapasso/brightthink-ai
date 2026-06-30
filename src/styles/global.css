@@ -3,46 +3,51 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --bg-deep: #0C1020;
-  --bg-card: rgba(18,24,48,0.75);
-  --blue-primary: #2E5CFF;
-  --blue-light: #5B8AFF;
-  --blue-glow: rgba(46,92,255,0.15);
-  --purple-glow: rgba(100,60,255,0.08);
-  --text-bright: #F4F5FF;
-  --text-heading: #E8ECFF;
-  --text-body: rgba(200,215,255,0.7);
-  --text-muted: rgba(180,195,255,0.45);
-  --text-label: rgba(140,170,255,0.5);
-  --border-subtle: rgba(99,130,255,0.12);
-  --border-line: rgba(99,130,255,0.1);
+  /* Surfaces */
+  --bg-page:    #F8F9FB;
+  --bg-card:    #FFFFFF;
+  --bg-surface: #F2F4F8;
+  --bg-accent:  rgba(75,142,241,0.06);
+
+  /* Accent */
+  --blue:         #4B8EF1;
+  --blue-dark:    #2E6DD4;
+  --blue-hover:   #3A7DE0;
+
+  /* Text */
+  --text-primary:   #111827;
+  --text-secondary: #4B5563;
+  --text-muted:     #9CA3AF;
+  --text-label:     #6B7280;
+  --text-accent:    #4B8EF1;
+
+  /* Borders */
+  --border:        rgba(0,0,0,0.08);
+  --border-medium: rgba(0,0,0,0.12);
+  --border-accent: rgba(75,142,241,0.22);
+
+  /* Legacy aliases used by index.astro */
+  --text-heading: var(--text-primary);
+  --text-body:    var(--text-secondary);
+  --border-subtle: var(--border);
+  --border-line:   var(--border);
+
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --radius: 10px;
 }
 
 html {
   font-family: var(--font-sans);
-  background: var(--bg-deep);
-  color: var(--text-body);
+  background: var(--bg-page);
+  color: var(--text-secondary);
   scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
 }
 
 body {
   min-height: 100vh;
-  position: relative;
   overflow-x: hidden;
 }
-
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
-  pointer-events: none;
-  z-index: 0;
-}
-
-body > * { position: relative; z-index: 1; }
 
 a { color: inherit; text-decoration: none; }
 img { max-width: 100%; display: block; }
@@ -59,45 +64,35 @@ img { max-width: 100%; display: block; }
   margin: 0 auto;
   max-width: 1100px;
   padding: 0 24px;
-  position: relative;
 }
 .divider::before {
   content: '';
   display: block;
   height: 1px;
-  background: linear-gradient(90deg, transparent 0%, rgba(99,130,255,0.25) 30%, rgba(99,130,255,0.25) 70%, transparent 100%);
-}
-.divider::after {
-  content: '';
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  top: -2px;
-  width: 60px;
-  height: 5px;
-  background: radial-gradient(ellipse, rgba(46,92,255,0.25), transparent);
+  background: linear-gradient(90deg, transparent 0%, rgba(0,0,0,0.1) 30%, rgba(0,0,0,0.1) 70%, transparent 100%);
 }
 
 /* Section labels */
 .section-label {
   font-size: 11px;
-  color: var(--text-label);
-  letter-spacing: 2.5px;
+  color: var(--text-accent);
+  letter-spacing: 2px;
   text-transform: uppercase;
+  font-weight: 500;
   margin-bottom: 8px;
 }
 
 .section-title {
   font-size: 28px;
   font-weight: 500;
-  color: var(--text-heading);
+  color: var(--text-primary);
   letter-spacing: -0.5px;
   margin-bottom: 8px;
 }
 
 .section-sub {
   font-size: 16px;
-  color: var(--text-body);
+  color: var(--text-secondary);
   margin-bottom: 40px;
 }
 
@@ -106,43 +101,37 @@ img { max-width: 100%; display: block; }
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  background: linear-gradient(135deg, #2E5CFF, #1A3FCC);
+  background: var(--blue);
   color: #fff;
-  padding: 14px 32px;
-  border-radius: 8px;
+  padding: 13px 28px;
+  border-radius: var(--radius);
   font-size: 15px;
   font-weight: 500;
   border: none;
   cursor: pointer;
-  position: relative;
-  transition: transform 0.15s ease;
+  transition: background 0.15s ease, transform 0.15s ease;
 }
-.btn-primary::after {
-  content: '';
-  position: absolute;
-  inset: -1px;
-  border-radius: 9px;
-  background: linear-gradient(135deg, rgba(91,138,255,0.3), rgba(139,111,255,0.15));
-  z-index: -1;
+.btn-primary:hover {
+  background: var(--blue-hover);
+  transform: translateY(-1px);
 }
-.btn-primary:hover { transform: translateY(-1px); }
 
 .btn-ghost {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  border: 1px solid rgba(99,130,255,0.15);
-  color: rgba(200,210,255,0.6);
-  padding: 14px 32px;
-  border-radius: 8px;
+  border: 1px solid var(--border-medium);
+  color: var(--text-secondary);
+  padding: 13px 28px;
+  border-radius: var(--radius);
   font-size: 15px;
-  background: rgba(46,92,255,0.03);
+  background: var(--bg-card);
   cursor: pointer;
   transition: border-color 0.2s ease, color 0.2s ease;
 }
 .btn-ghost:hover {
-  border-color: rgba(99,130,255,0.3);
-  color: rgba(200,210,255,0.8);
+  border-color: var(--blue);
+  color: var(--blue);
 }
 
 /* Responsive */
